@@ -5,6 +5,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 
 const minLength = (len) => (val) => val && (val.length >= len);
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const required = (val) => val && val.length;
 
 
 function RenderDish({ dish }) {
@@ -26,7 +27,7 @@ function RenderDish({ dish }) {
         );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, dishId }) {
     if (comments == null) {
         return (<div></div>)
     }
@@ -51,7 +52,7 @@ function RenderComments({ comments }) {
             <ul className='list-unstyled'>
                 {cmnts}
             </ul>
-            <CommentForm />
+            <CommentForm dishId={dishId} addComment={addComment} />
         </div>
     )
 }
@@ -62,7 +63,7 @@ class CommentForm extends Component {
         super(props);
 
         this.toggleModal = this.toggleModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);       
+        this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
             isModalOpen: false
@@ -71,7 +72,7 @@ class CommentForm extends Component {
 
 
     handleSubmit(values) {
-        alert('Form Submitted.' + JSON.stringify(values));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     toggleModal() {
@@ -91,21 +92,30 @@ class CommentForm extends Component {
                     <ModalBody>
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
 
-                        <Col className="form-group">
+                            <Col className="form-group">
                                 <Label htmlFor="Rating" >Rating</Label>
-                                <Control.select model=".contactType" name="contactType"
-                                    className="form-control">
+                                <Control.select model=".rating" name="rating"
+                                    className="form-control" validators={{required }}>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option>
+                                    <option selected >Select Rating</option>
                                 </Control.select>
+                                <Errors
+                                    className="text-danger"
+                                    model=".rating"
+                                    show="touched"
+                                    messages={{
+                                        required: 'required'
+                                    }}
+                                />
                             </Col>
 
                             <Col className="form-group" >
                                 <Label htmlFor="yourname" >Your Name</Label>
-                                <Control.text model=".yourname" id="yourname" name="yourname"
+                                <Control.text model=".author" id="author" name="author"
                                     placeholder="Your Name"
                                     className="form-control"
                                     validators={{
@@ -113,14 +123,14 @@ class CommentForm extends Component {
                                     }}
                                 />
                                 <Errors
-                                        className="text-danger"
-                                        model=".yourname"
-                                        show="touched"
-                                        messages={{
-                                            minLength: 'Must be greater than 2 characters',
-                                            maxLength: 'Must be 15 characters or less'
-                                        }}
-                                    />
+                                    className="text-danger"
+                                    model=".yourname"
+                                    show="touched"
+                                    messages={{
+                                        minLength: 'Must be greater than 2 characters',
+                                        maxLength: 'Must be 15 characters or less'
+                                    }}
+                                />
 
                             </Col>
 
@@ -131,11 +141,11 @@ class CommentForm extends Component {
                                     className="form-control" />
                             </Col>
 
-                                <Col className="form-group">
-                                    <Button type="submit" color="primary">
-                                        Submit
-                                    </Button>
-                                </Col>
+                            <Col className="form-group">
+                                <Button type="submit" color="primary">
+                                    Submit
+                                </Button>
+                            </Col>
                         </LocalForm>
                     </ModalBody>
                 </Modal>
@@ -166,7 +176,9 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments}
+                        addComment={props.addComment}
+                        dishId={props.dish.id} />
                 </div>
             </div>
         );
