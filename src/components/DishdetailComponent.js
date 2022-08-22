@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Modal, ModalHeader, ModalBody, Button, Label, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 const minLength = (len) => (val) => val && (val.length >= len);
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -95,7 +96,7 @@ class CommentForm extends Component {
                             <Col className="form-group">
                                 <Label htmlFor="Rating" >Rating</Label>
                                 <Control.select model=".rating" name="rating"
-                                    className="form-control" validators={{required }}>
+                                    className="form-control" validators={{ required }}>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -155,12 +156,28 @@ class CommentForm extends Component {
 }
 
 const DishDetail = (props) => {
-    const dish = props.dish;
 
 
-    if (dish == null)
-        return (<div></div>);
-    else
+    if (props.isLoading) {
+        return (
+            <div className='conatiner'>
+                <div className='row'>
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (props.errMess) {
+        return (
+            <div className='conatiner'>
+                <div className='row'>
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+
+    else if (props.dish != null)
         return (
             <div className="container">
                 <div className="row">
