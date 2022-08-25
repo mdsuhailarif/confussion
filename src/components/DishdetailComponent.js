@@ -3,6 +3,9 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import {baseUrl} from '../shared/baseUrl';
+
+
 
 const minLength = (len) => (val) => val && (val.length >= len);
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -14,7 +17,7 @@ function RenderDish({ dish }) {
         return (
             <div className='col-12 col-md-5 m-1'>
                 <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
+                    <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle><h6>{dish.name}</h6></CardTitle>
                         <CardText>{dish.description}</CardText>
@@ -28,7 +31,7 @@ function RenderDish({ dish }) {
         );
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
     if (comments == null) {
         return (<div></div>)
     }
@@ -53,7 +56,7 @@ function RenderComments({ comments, addComment, dishId }) {
             <ul className='list-unstyled'>
                 {cmnts}
             </ul>
-            <CommentForm dishId={dishId} addComment={addComment} />
+            <CommentForm dishId={dishId} postComment={postComment} />
         </div>
     )
 }
@@ -73,7 +76,7 @@ class CommentForm extends Component {
 
 
     handleSubmit(values) {
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     toggleModal() {
@@ -96,13 +99,13 @@ class CommentForm extends Component {
                             <Col className="form-group">
                                 <Label htmlFor="Rating" >Rating</Label>
                                 <Control.select model=".rating" name="rating"
-                                    className="form-control" validators={{ required }}>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option selected >Select Rating</option>
+                                    className="form-control" validators={{ required }} defaultValue="0">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="0">Select Rating</option>
                                 </Control.select>
                                 <Errors
                                     className="text-danger"
@@ -194,11 +197,12 @@ const DishDetail = (props) => {
                 <div className="row">
                     <RenderDish dish={props.dish} />
                     <RenderComments comments={props.comments}
-                        addComment={props.addComment}
+                        postComment={props.postComment}
                         dishId={props.dish.id} />
                 </div>
             </div>
         );
+        
 }
 
 export default DishDetail;
