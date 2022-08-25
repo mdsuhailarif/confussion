@@ -20,6 +20,7 @@ export const Dishes = (state = {
             return {
                 ...state, isLoading: false, errMess: action.payload, dishes: []
             };
+            
         default:
             return state;
     }

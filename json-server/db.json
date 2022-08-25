@@ -201,15 +201,8 @@
       "comment": "It's your birthday, we're gonna party!",
       "author": "25 Cent",
       "date": "2011-12-02T17:57:28.556094Z"
-    },
-    {
-      "dishId": 1,
-      "rating": "4",
-      "author": "suhail",
-      "comment": "this is a new comment",
-      "date": "2022-08-25T08:55:08.880Z",
-      "id": 20
     }
+    
   ],
   "promotions": [
     {
@@ -271,6 +264,18 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
+    },
+    {
+      "date": "2022-08-25T13:15:36.834Z",
+      "firstname": "Md.",
+      "lastname": "Arif",
+      "telnum": "99090980",
+      "email": "xyz@gmail.com",
+      "agree": false,
+      "contactType": "Email",
+      "message": "",
+      "meassage": "xyz",
+      "id": 2
     }
   ]
 }
