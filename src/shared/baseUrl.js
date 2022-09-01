@@ -1,1 +1,1 @@
-export const baseUrl = 'https://confussion.herokuapp.com/';
+export const baseUrl = 'https://json-server-confussion.herokuapp.com/';
