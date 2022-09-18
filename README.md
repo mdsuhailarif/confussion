@@ -22,17 +22,17 @@ This is the frontend repository
 
 1. Home (Landing Page with Login Form)
 2. Menu (Dishes Menu)
-3. Dishe Details (Selected Dish Description and Comments)
-4. Add Comments (Comments Form in Dishe Details)
-5. Aboute Us
+3. Dish Details (Selected Dish Description and Comments)
+4. Add Comments (Comments Form in Dish Details)
+5. About Us
 6. Contact Us ( Feedback Form )
 
 ## Running locally
 
-run <code>npm i</code> and <code>npm start</code> to see the ListenUp in action
+run <code>npm i</code> and <code>npm start</code> to see the Confussion in action
 
 ## Running Online
 
-Click on the link below  to see the ListenUp in action
+Click on the link below  to see the Confussion in action
 
 https://confussion.on.fleek.co/
